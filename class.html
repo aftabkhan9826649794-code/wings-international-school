@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subject - WINGS</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+.container{
+  max-width:1000px;
+  margin:60px auto;
+  padding:20px;
+}
+
+.lesson-card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.08);
+  margin-bottom:30px;
+}
+
+.lesson-card h3{
+  margin-bottom:10px;
+  color:#003087;
+}
+
+.lesson-links a{
+  display:inline-block;
+  margin-right:10px;
+  margin-top:10px;
+  padding:8px 15px;
+  background:#003087;
+  color:white;
+  border-radius:20px;
+  text-decoration:none;
+  transition:0.3s;
+}
+
+.lesson-links a:hover{
+  background:#ffd700;
+  color:#003087;
+}
+
+iframe{
+  margin-top:15px;
+  width:100%;
+  height:350px;
+  border-radius:10px;
+}
+
+.no-data{
+  padding:20px;
+  background:#f9f9f9;
+  border-left:4px solid #003087;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <span>WINGS International Institute</span>
+  </div>
+
+  <ul class="nav-menu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="distance-education.html">Distance Edu</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+<h2 id="subjectTitle">Loading Subject...</h2>
+
+<div id="lessonArea"></div>
+
+</div>
+
+<footer>
+<div class="footer-container">
+<h3>WINGS – Second Chance for All</h3>
+<p>Empowering Every Student with Flexible Education</p>
+</div>
+</footer>
+
+<script>
+
+const API = "https://sheetdb.io/api/v1/58f61be4dda40?sheet=Lessons";
+
+const urlParams = new URLSearchParams(window.location.search);
+const subjectID = urlParams.get("id");
+
+const titleEl = document.getElementById("subjectTitle");
+const lessonArea = document.getElementById("lessonArea");
+
+if(!subjectID){
+  titleEl.innerText = "Invalid Subject";
+  lessonArea.innerHTML = "<div class='no-data'>Subject not found.</div>";
+  throw new Error("No Subject ID");
+}
+
+titleEl.innerText = "Subject: " + subjectID;
+
+fetch(API)
+.then(res=>{
+  if(!res.ok) throw new Error("Network error");
+  return res.json();
+})
+.then(data=>{
+
+  const filtered = data.filter(l => l.SubjectID === subjectID);
+
+  if(filtered.length === 0){
+    lessonArea.innerHTML =
+    "<div class='no-data'>No lessons available for this subject.</div>";
+    return;
+  }
+
+  let html = "";
+
+  filtered.forEach(lesson=>{
+
+    let videoHTML = "";
+
+    if(lesson.Video){
+
+      let videoLink = lesson.Video;
+
+      if(videoLink.includes("watch?v=")){
+        videoLink = videoLink.replace("watch?v=","embed/");
+      }
+
+      videoHTML = `<iframe src="${videoLink}" allowfullscreen></iframe>`;
+    }
+
+    let pdfButton = lesson.PDF 
+      ? `<a href="${lesson.PDF}" target="_blank">📘 Open PDF</a>`
+      : "";
+
+    html += `
+    <div class="lesson-card">
+      <h3>${lesson.Title || "Untitled Lesson"}</h3>
+
+      <div class="lesson-links">
+        ${pdfButton}
+      </div>
+
+      ${videoHTML}
+    </div>
+    `;
+  });
+
+  lessonArea.innerHTML = html;
+
+})
+.catch(()=>{
+  lessonArea.innerHTML =
+  "<div class='no-data'>Error loading lessons. Please try again.</div>";
+});
+
+</script>
+
+</body>
+</html>

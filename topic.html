@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Topic Notes - WINGS</title>
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+.topic-container{
+  max-width:900px;
+  margin:70px auto;
+  padding:30px;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 6px 25px rgba(0,0,0,0.08);
+}
+
+.topic-container h2{
+  text-align:center;
+  color:#003087;
+  margin-bottom:20px;
+}
+
+.topic-container select,
+.topic-container input{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+.topic-container button{
+  margin-top:15px;
+  padding:12px 25px;
+  background:#003087;
+  color:white;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.topic-container button:hover{
+  background:#ffd700;
+  color:#003087;
+}
+
+.output{
+  margin-top:25px;
+  padding:20px;
+  background:#f4f6f9;
+  border-radius:10px;
+  white-space:pre-line;
+  line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topic-container">
+
+<h2>AI Smart Topic Notes Generator</h2>
+
+<label>Select Subject:</label>
+<select id="subject">
+<option value="">Select Subject</option>
+<option>English Grammar</option>
+<option>Hindi Grammar</option>
+<option>History</option>
+<option>Science</option>
+<option>Civics</option>
+<option>Geography</option>
+</select>
+
+<label>Enter Topic:</label>
+<input type="text" id="topic" placeholder="Example: Tenses">
+
+<button onclick="generateNotes()">Generate Notes</button>
+
+<div id="result" class="output"></div>
+
+</div>
+
+<script>
+
+function generateNotes(){
+
+const subject = document.getElementById("subject").value;
+const topic = document.getElementById("topic").value;
+
+if(!subject || !topic){
+  alert("Please select subject and enter topic");
+  return;
+}
+
+const notes = `
+📘 Subject: ${subject}
+📚 Topic: ${topic}
+
+1️⃣ Definition:
+${topic} is an important concept in ${subject}.
+
+2️⃣ Explanation:
+This topic helps students understand key principles and improve conceptual clarity.
+
+3️⃣ Key Points:
+• Introduction of ${topic}
+• Important rules and concepts
+• Practical applications
+• Exam relevance
+
+4️⃣ Example:
+Example related to ${topic} in ${subject}.
+
+5️⃣ Short Summary:
+Mastering ${topic} strengthens your foundation in ${subject}.
+`;
+
+document.getElementById("result").innerText = notes;
+
+}
+
+</script>
+
+</body>
+</html>

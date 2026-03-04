@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Topic Notes - WINGS</title>
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+.ai-container{
+  max-width:900px;
+  margin:60px auto;
+  padding:30px;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 6px 25px rgba(0,0,0,0.08);
+}
+
+.ai-container h2{
+  color:#003087;
+  margin-bottom:20px;
+}
+
+select,input{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+button{
+  margin-top:15px;
+  padding:10px 20px;
+  background:#003087;
+  color:white;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#ffd700;
+  color:#003087;
+}
+
+.output{
+  margin-top:25px;
+  padding:20px;
+  background:#f4f6f9;
+  border-radius:10px;
+  white-space:pre-line;
+  min-height:120px;
+}
+
+.action-buttons{
+  margin-top:15px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.loading{
+  color:#003087;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="ai-container">
+
+<h2>Smart Topic Notes Generator</h2>
+
+<label>Select Subject:</label>
+<select id="subject">
+<option value="">Select Subject</option>
+<option>English Grammar</option>
+<option>Hindi Grammar</option>
+<option>History</option>
+<option>Science</option>
+<option>Civics</option>
+<option>Geography</option>
+</select>
+
+<label>Enter Topic:</label>
+<input type="text" id="topic" placeholder="Example: Tenses">
+
+<button onclick="generateNotes()">Generate Notes</button>
+
+<div id="result" class="output"></div>
+
+<div class="action-buttons" id="actions" style="display:none;">
+  <button onclick="copyNotes()">Copy Notes</button>
+  <button onclick="downloadNotes()">Download Notes</button>
+</div>
+
+</div>
+
+<script>
+
+function generateNotes(){
+
+const subject = document.getElementById("subject").value.trim();
+const topic = document.getElementById("topic").value.trim();
+const resultBox = document.getElementById("result");
+const actions = document.getElementById("actions");
+
+if(!subject || !topic){
+  alert("Please select subject and enter topic");
+  return;
+}
+
+resultBox.innerHTML = "<span class='loading'>Generating Notes...</span>";
+actions.style.display = "none";
+
+setTimeout(()=>{
+
+let explanation = "";
+let example = "";
+
+switch(subject){
+
+case "English Grammar":
+  explanation = topic + " improves sentence structure and communication.";
+  example = "Example: She is going to school.";
+  break;
+
+case "Hindi Grammar":
+  explanation = topic + " helps understand proper Hindi sentence formation.";
+  example = "उदाहरण: राम स्कूल जा रहा है।";
+  break;
+
+case "Science":
+  explanation = topic + " explains scientific principles and real-life applications.";
+  example = "Example: Photosynthesis occurs in green plants.";
+  break;
+
+case "History":
+  explanation = topic + " describes important historical events and their impact.";
+  example = "Example: The French Revolution began in 1789.";
+  break;
+
+case "Civics":
+  explanation = topic + " relates to governance, rights and responsibilities.";
+  example = "Example: The Constitution defines fundamental rights.";
+  break;
+
+case "Geography":
+  explanation = topic + " studies earth systems and environmental patterns.";
+  example = "Example: Monsoon affects Indian agriculture.";
+  break;
+
+default:
+  explanation = topic + " is an important concept in " + subject + ".";
+  example = "Example related to " + topic;
+}
+
+const notes = `
+📘 Subject: ${subject}
+📚 Topic: ${topic}
+
+1️⃣ Definition:
+${topic} is an important topic in ${subject}.
+
+2️⃣ Explanation:
+${explanation}
+
+3️⃣ Key Points:
+• Introduction of ${topic}
+• Core concepts
+• Important rules
+• Practical application
+
+4️⃣ Example:
+${example}
+
+5️⃣ Summary:
+Understanding ${topic} strengthens knowledge in ${subject}.
+`;
+
+resultBox.innerText = notes;
+actions.style.display = "flex";
+
+},800);
+
+}
+
+function copyNotes(){
+const text = document.getElementById("result").innerText;
+navigator.clipboard.writeText(text);
+alert("Notes copied to clipboard!");
+}
+
+function downloadNotes(){
+const text = document.getElementById("result").innerText;
+const blob = new Blob([text], { type: "text/plain" });
+const link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = "WINGS-Notes.txt";
+link.click();
+}
+
+</script>
+
+</body>
+</html>

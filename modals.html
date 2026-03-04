@@ -1,0 +1,55 @@
+```html
+<!-- ================= ADMISSION MODAL ================= -->
+
+<div id="admissionModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeAdmissionModal()">&times;</span>
+    <h2>Admission Form - WINGS International Institute</h2>
+
+    <form id="admissionForm">
+      <input type="text" id="adName" placeholder="Full Name" required>
+      <input type="tel" id="adPhone" placeholder="Phone Number" required>
+      <input type="email" id="adEmail" placeholder="Email ID" required>
+
+      <select id="adCourse" required>
+        <option value="">Select Course</option>
+        <option>Computer Training</option>
+        <option>Teacher Training Program</option>
+        <option>Fashion Designing</option>
+        <option>Mehndi Designing</option>
+        <option>Competitive Exam Foundation</option>
+      </select>
+
+      <input type="text" id="adQualification" placeholder="Qualification">
+
+      <button type="button" onclick="submitAdmission()">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+
+<!-- ================= ENQUIRY MODAL ================= -->
+
+<div id="enquiryModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeEnquiryModal()">&times;</span>
+    <h2>Enquiry Form - Message to Admin</h2>
+
+    <form id="enquiryForm">
+      <input type="text" id="enName" placeholder="Your Name" required>
+      <input type="tel" id="enPhone" placeholder="Phone Number" required>
+      <input type="email" id="enEmail" placeholder="Email ID" required>
+      <textarea id="enMessage" placeholder="Your Message / Enquiry" rows="5" required></textarea>
+
+      <button type="button" onclick="submitEnquiry()">Send Message</button>
+    </form>
+  </div>
+</div>
+
+
+<!-- ================= FLOAT BUTTON (OUTSIDE FORM) ================= -->
+
+<button onclick="openEnquiryModal()" class="float-btn">
+  📩 Enquiry Now
+</button>
+```
